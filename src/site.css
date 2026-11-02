@@ -1,0 +1,123 @@
+.sec{padding:40px 0}
+.sec.soft{background:var(--soft)}
+.sec h2{font-size:clamp(23px,5.6vw,32px);line-height:1.2;margin:0 0 18px;letter-spacing:-.3px}
+.sec .intro{color:var(--muted);margin:-8px 0 20px;max-width:680px}
+
+/* Ce facem */
+.list{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.list li{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:14px 16px 14px 46px;position:relative}
+.list li::before{content:"✓";position:absolute;left:16px;top:13px;width:20px;height:20px;border-radius:50%;background:#e7f7ee;color:var(--wa2);font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center}
+.list b{display:block}
+.list span{color:var(--muted);font-size:15px}
+
+/* Carduri servicii (pagina principală) */
+.cards{display:grid;gap:12px}
+.card{display:block;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:18px;text-decoration:none;transition:border-color .15s,box-shadow .15s}
+.card:hover{border-color:var(--cta);box-shadow:0 6px 18px rgba(15,29,46,.08)}
+.card h3{margin:0 0 6px;font-size:19px}
+.card p{margin:0 0 10px;color:var(--muted);font-size:15px}
+.card .more{color:var(--cta2);font-weight:700;font-size:15px}
+
+/* Poze */
+.photo{border-radius:var(--r);overflow:hidden;margin:0 0 20px}
+.photo figcaption{font-size:14px;color:var(--muted);padding:8px 2px 0}
+
+/* Pași */
+.steps{list-style:none;padding:0;margin:0;display:grid;gap:12px;counter-reset:s}
+.steps li{counter-increment:s;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px 16px 16px 62px;position:relative}
+.steps li::before{content:counter(s);position:absolute;left:16px;top:15px;width:32px;height:32px;border-radius:50%;background:var(--navy);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center}
+.steps b{display:block;font-size:17px}
+.steps span{color:var(--muted);font-size:15px}
+
+/* De ce noi */
+.why{display:grid;gap:12px;grid-template-columns:1fr 1fr}
+.why div{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px}
+.why b{display:block;font-size:16px;margin-bottom:2px}
+.why span{color:var(--muted);font-size:14px}
+
+/* FAQ */
+.faq details{background:#fff;border:1px solid var(--line);border-radius:var(--r);margin:0 0 10px}
+.faq summary{cursor:pointer;list-style:none;padding:16px 48px 16px 16px;font-weight:700;position:relative;min-height:48px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:18px;top:12px;font-size:24px;font-weight:400;color:var(--muted)}
+.faq details[open] summary::after{content:"−"}
+.faq details p{margin:0;padding:0 16px 16px;color:#38424f}
+
+/* Contact final */
+.final{background:var(--navy);color:#fff;text-align:center}
+.final h2{color:#fff}
+.final p{color:#cbd6e2;margin:-6px auto 20px;max-width:560px}
+.final .btns{justify-content:center;max-width:620px;margin:0 auto}
+.final .btn{flex:1 1 180px}
+.final .btn-cb{background:transparent;color:#fff;border-color:#fff}
+.final .tel-big{display:block;font-size:30px;font-weight:800;text-decoration:none;margin:18px 0 0;letter-spacing:.5px}
+
+/* Footer */
+.ftr{background:#0a1420;color:#9fb0c2;font-size:14px;padding:28px 0 24px}
+.ftr .cols{display:grid;gap:18px}
+.ftr .fh{color:#fff;margin:0 0 8px;font-size:15px}
+.ftr ul{list-style:none;margin:0;padding:0}
+.ftr li{margin:0 0 6px}
+.ftr a{text-decoration:none}
+.ftr a:hover{text-decoration:underline;color:#fff}
+.linkbtn{background:none;border:0;color:inherit;font:inherit;cursor:pointer;padding:4px 0;text-decoration:underline}
+.ftr .copy{border-top:1px solid #1d2b3b;margin-top:20px;padding-top:14px;display:flex;flex-wrap:wrap;gap:6px 18px}
+
+/* Meniu mobil (doar pe pagina principală) */
+.mnav{position:relative}
+.mnav summary{list-style:none;cursor:pointer;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:10px;border:1px solid #2c4561}
+.mnav summary::-webkit-details-marker{display:none}
+.mnav summary span,.mnav summary span::before,.mnav summary span::after{display:block;width:20px;height:2px;background:#fff;position:relative;content:""}
+.mnav summary span::before{position:absolute;top:-6px}
+.mnav summary span::after{position:absolute;top:6px}
+.mnav nav{position:absolute;right:0;top:52px;background:#fff;color:var(--ink);border-radius:var(--r);box-shadow:0 10px 30px rgba(0,0,0,.2);min-width:230px;padding:6px;z-index:50}
+.mnav nav a{display:block;padding:12px 14px;text-decoration:none;border-radius:8px;font-weight:600}
+.mnav nav a:hover{background:var(--soft)}
+@media (min-width:900px){.mnav{display:none}}
+
+/* Popup-uri */
+dialog{border:0;border-radius:16px;padding:0;max-width:420px;width:calc(100% - 24px);box-shadow:0 20px 60px rgba(0,0,0,.35);color:var(--ink)}
+dialog::backdrop{background:rgba(10,20,32,.6)}
+.dlg{padding:22px 20px 20px;position:relative}
+.dlg h3{margin:0 0 4px;font-size:22px;padding-right:36px}
+.dlg .sub{margin:0 0 16px;color:var(--muted);font-size:15px}
+.x{position:absolute;right:8px;top:8px;width:44px;height:44px;border:0;background:none;font-size:26px;line-height:1;cursor:pointer;color:var(--muted);border-radius:10px}
+.x:hover{background:var(--soft)}
+.fld{margin:0 0 12px}
+.fld label{display:block;font-weight:600;font-size:15px;margin:0 0 4px}
+.fld label small{font-weight:400;color:var(--muted)}
+.fld input,.fld select{width:100%;min-height:50px;border:1.5px solid #c5cdd6;border-radius:10px;padding:10px 12px;font:inherit;font-size:17px;background:#fff;color:var(--ink)}
+.fld input:focus,.fld select:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px rgba(23,48,75,.15)}
+.fld input[aria-invalid=true]{border-color:#d92d20}
+.err{color:#b42318;font-size:14px;margin:4px 0 0;min-height:0}
+.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;overflow:hidden}
+.dlg .btn{width:100%}
+.dlg .btn+.btn{margin-top:10px}
+.note{font-size:13px;color:var(--muted);margin:10px 0 0;text-align:center}
+.ok{text-align:center;padding:10px 0}
+.ok .ic{width:56px;height:56px;border-radius:50%;background:#e7f7ee;color:var(--wa2);font-size:30px;display:flex;align-items:center;justify-content:center;margin:0 auto 10px}
+.fail{background:#fef3f2;border:1px solid #fecdca;border-radius:10px;padding:12px;margin:0 0 12px;font-size:15px}
+.legal dl{margin:0;font-size:15px}
+.legal dt{font-weight:700;margin-top:10px}
+.legal dd{margin:0;color:#38424f}
+
+/* Banner cookies: stă deasupra barei de jos, nu o acoperă */
+.ck{position:fixed;left:8px;right:8px;bottom:calc(var(--bar) + 8px + env(safe-area-inset-bottom));z-index:55;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 8px 28px rgba(0,0,0,.18);padding:12px 14px;font-size:14px;max-width:520px;margin:0 auto}
+.ck p{margin:0 0 10px;color:#38424f}
+.ck .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ck button{min-height:44px;border-radius:10px;font:700 15px inherit;font-family:inherit;cursor:pointer;border:1.5px solid var(--navy);background:#fff;color:var(--navy)}
+.ck button.acc{background:var(--navy);color:#fff}
+
+@media (min-width:700px){
+.cards{grid-template-columns:1fr 1fr}
+.steps{grid-template-columns:1fr 1fr}
+.why{grid-template-columns:repeat(4,1fr)}
+.ftr .cols{grid-template-columns:2fr 1fr 1fr}
+.list{grid-template-columns:1fr 1fr}
+}
+@media (min-width:900px){
+.sec{padding:64px 0}
+.cards{grid-template-columns:repeat(3,1fr)}
+.steps{grid-template-columns:repeat(4,1fr)}
+.ck{bottom:16px;left:16px;right:auto}
+}

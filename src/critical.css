@@ -1,0 +1,60 @@
+:root{--navy:#0f1d2e;--navy2:#17304b;--ink:#1b2430;--muted:#5b6675;--bg:#fff;--soft:#f3f5f8;--line:#e3e7ec;--cta:#c2410c;--cta2:#9a3412;--wa:#15803d;--wa2:#166534;--r:12px;--bar:68px}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);padding-bottom:calc(var(--bar) + env(safe-area-inset-bottom))}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+.hdr{background:var(--navy);color:#fff;position:sticky;top:0;z-index:40}
+.hdr .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:56px}
+.logo{font-weight:800;font-size:19px;text-decoration:none;letter-spacing:-.2px;white-space:nowrap}
+.logo b{color:#ff8a3d}
+.hdr-cta{display:flex;gap:8px;align-items:center}
+.hdr-tel{display:inline-flex;align-items:center;gap:6px;font-weight:700;text-decoration:none;background:var(--cta);padding:8px 12px;border-radius:999px;font-size:15px;min-height:40px}
+.hdr-wa{display:none}
+.hdr-tel{white-space:nowrap}
+@media (max-width:419px){.hdr-home .hdr-tel span{display:none}.hdr-home .hdr-tel{padding:8px 13px}}
+.nav{display:none}
+.hero{background:linear-gradient(160deg,var(--navy) 0%,var(--navy2) 100%);color:#fff;padding:22px 0 26px}
+.hero h1{font-size:clamp(27px,7.2vw,44px);line-height:1.12;margin:0 0 10px;letter-spacing:-.5px}
+.hero .lead{font-size:17px;margin:0 0 14px;color:#dbe4ee;max-width:620px}
+.trust{list-style:none;padding:0;margin:0 0 18px;display:flex;flex-wrap:wrap;gap:6px 14px;font-size:15px;font-weight:600}
+.trust li::before{content:"✓";color:#4ade80;margin-right:6px;font-weight:800}
+.btns{display:flex;flex-wrap:wrap;gap:10px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:0 22px;border-radius:var(--r);font-weight:700;font-size:17px;text-decoration:none;border:0;cursor:pointer;font-family:inherit;line-height:1.2}
+.btn-call{background:var(--cta);color:#fff}
+.btn-call:hover{background:var(--cta2)}
+.btn-wa{background:var(--wa);color:#fff}
+.btn-wa:hover{background:var(--wa2)}
+.btn-cb{background:#fff;color:var(--navy);border:2px solid var(--navy)}
+.hero .btn{flex:1 1 140px;padding:0 14px;white-space:nowrap}
+.dsk{display:none!important}
+.same-day{margin:12px 0 0;font-size:14px;color:#b9c7d6}
+.same-day::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:#4ade80;margin-right:7px;vertical-align:1px}
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:60;display:grid;grid-template-columns:1fr 1fr 1fr;background:#fff;border-top:1px solid var(--line);box-shadow:0 -4px 16px rgba(0,0,0,.08);padding:6px 6px calc(6px + env(safe-area-inset-bottom));gap:6px}
+.bar a,.bar button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:56px;border-radius:10px;border:0;font:700 14px/1.1 inherit;font-family:inherit;text-decoration:none;color:#fff;cursor:pointer}
+.bar .b-call{background:var(--cta)}
+.bar .b-wa{background:var(--wa)}
+.bar .b-cb{background:var(--navy)}
+.bar svg,.btn svg,.hdr-tel svg{width:22px;height:22px;flex:none}
+.hdr-tel svg{width:18px;height:18px}
+html[data-j=mures] .zj::after{content:" în județul Mureș"}
+html[data-j=cluj] .zj::after{content:" în județul Cluj"}
+html[data-j=sibiu] .zj::after{content:" în județul Sibiu"}
+html[data-j=mures] .zo::after{content:" în Târgu Mureș și împrejurimi"}
+html[data-j=cluj] .zo::after{content:" în Cluj și împrejurimi"}
+html[data-j=sibiu] .zo::after{content:" în Sibiu și împrejurimi"}
+html[data-j=mures] .zgen,html[data-j=cluj] .zgen,html[data-j=sibiu] .zgen{display:none}
+@media (min-width:900px){
+body{padding-bottom:0}
+.bar{display:none}
+.hdr-wa{display:inline-flex;align-items:center;gap:6px;font-weight:700;text-decoration:none;background:var(--wa);padding:8px 12px;border-radius:999px;font-size:15px;min-height:40px}
+.hdr-wa svg{width:18px;height:18px}
+.hero{padding:56px 0 60px}
+.hero .lead{font-size:19px}
+.hero .btn{flex:0 0 auto;padding:0 22px}
+.dsk{display:inline-flex!important}
+.nav{display:flex;gap:18px;font-size:15px}
+.nav a{text-decoration:none;opacity:.88}
+.nav a:hover{opacity:1;text-decoration:underline}
+}
