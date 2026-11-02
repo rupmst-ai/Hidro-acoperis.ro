@@ -1,12 +1,18 @@
 // Cloudflare Pages Function: POST /api/callback
-// Primește cererea "Te sunăm noi" și o trimite pe email prin Resend.
+// Primește cererea "Te sunăm noi" și o trimite pe aceleași canale ca site-ul german:
+//   1. Formspree  → email
+//   2. Google Apps Script → notificare (WhatsApp / tabel)
+//   3. Resend (opțional, doar dacă e setat RESEND_API_KEY) → email de rezervă
+// Cererea e considerată reușită dacă a ajuns pe cel puțin un canal.
 //
-// Variabile de mediu (Cloudflare Pages → Settings → Variables and Secrets):
-//   RESEND_API_KEY        obligatoriu (secret)
-//   TURNSTILE_SECRET_KEY  opțional (secret); dacă lipsește, verificarea Turnstile e sărită
-//   LEAD_TO               opțional; implicit dachgmbh01@gmail.com
-//   LEAD_FROM             opțional; implicit "HidroAcoperis <onboarding@resend.dev>"
+// Variabile de mediu opționale (Cloudflare Pages → Settings → Variables and Secrets):
+//   FORMSPREE_URL, SHEET_URL   suprascriu adresele implicite de mai jos
+//   TURNSTILE_SECRET_KEY       dacă lipsește, verificarea Turnstile e sărită
+//   RESEND_API_KEY, LEAD_TO, LEAD_FROM   email de rezervă prin Resend
 
+const FORMSPREE_URL = 'https://formspree.io/f/xvzbwbrj';
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxKxU91jmxHQIyEyBzzcuQ7Q3zN1q9wsklPoltXMbpYjF6GybzK2o2ZqforBrD8gBLk/exec';
+const SITE = 'https://hidro-acoperis.ro';
 const ZONE = { mures: 'Mureș', cluj: 'Cluj', sibiu: 'Sibiu' };
 
 function json(body, status = 200) {
@@ -40,6 +46,77 @@ async function verifyTurnstile(secret, token, ip) {
   }
 }
 
+async function sendFormspree(url, lead) {
+  const fd = new FormData();
+  fd.append('_subject', lead.subject);
+  fd.append('leistung', lead.service || 'Acoperiș (general)');
+  fd.append('telefon', lead.local);
+  fd.append('nume', lead.name || '—');
+  fd.append('judet', lead.judet || '—');
+  fd.append('quelle', 'RO hidro-acoperis.ro – Te sunăm noi');
+  fd.append('pagina', lead.pageUrl);
+  fd.append('gclid', lead.gclid);
+  fd.append('turnstile', lead.ts);
+  fd.append('id', lead.id);
+  const r = await fetch(url, {
+    method: 'POST',
+    body: fd,
+    headers: { Accept: 'application/json', Origin: SITE, Referer: lead.pageUrl }
+  });
+  return r.ok;
+}
+
+async function sendSheet(url, lead) {
+  // Același format ca pe site-ul german, ca scriptul existent să-l înțeleagă.
+  const d = {
+    action: '☎ ' + lead.local + (lead.name ? ' | ' + lead.name : '') + ' | ' + (lead.service || 'Acoperiș') + ' | RO' + (lead.judet ? ' ' + lead.judet : ''),
+    city: lead.judet || '',
+    locPhys: '',
+    locInt: '',
+    campId: '',
+    page: lead.page,
+    campaign: '',
+    keyword: '',
+    gclid: lead.gclid,
+    device: lead.device,
+    referrer: 'hidro-acoperis.ro'
+  };
+  const r = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+    body: JSON.stringify(d),
+    redirect: 'follow'
+  });
+  // Apps Script răspunde cu redirect; scriptul a rulat deja dacă nu e eroare de server.
+  return r.status < 500;
+}
+
+async function sendResend(env, lead) {
+  const rows = [
+    ['Nume', lead.name || '—'],
+    ['Telefon', lead.local],
+    ['Lucrare', lead.service || '—'],
+    ['Județ', lead.judet || '—'],
+    ['Pagina', lead.pageUrl],
+    ['gclid', lead.gclid || '—'],
+    ['Turnstile', lead.ts],
+    ['ID cerere', lead.id]
+  ];
+  const r = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      from: env.LEAD_FROM || 'HidroAcoperis <onboarding@resend.dev>',
+      to: [env.LEAD_TO || 'dachgmbh01@gmail.com'],
+      subject: lead.subject,
+      text: rows.map(([k, v]) => `${k}: ${v}`).join('\n'),
+      html: `<p style="font-size:22px"><a href="tel:${lead.phone}">${esc(lead.local)}</a></p><table cellpadding="6">` +
+        rows.map(([k, v]) => `<tr><td>${esc(k)}</td><td><b>${esc(v)}</b></td></tr>`).join('') + '</table>'
+    })
+  });
+  return r.ok;
+}
+
 export async function onRequestPost({ request, env }) {
   let data;
   try {
@@ -54,64 +131,38 @@ export async function onRequestPost({ request, env }) {
   const phone = clean(data.phone, 20);
   if (!/^\+40[237]\d{8}$/.test(phone)) return json({ ok: false, error: 'phone' }, 400);
 
-  const name = clean(data.name, 80);
-  const service = clean(data.service, 80);
-  const judetKey = clean(data.judet, 10);
-  const judet = ZONE[judetKey] || '';
-  const page = clean(data.page, 120);
-  const pageTitle = clean(data.pageTitle, 160);
-  const gclid = clean(data.gclid, 200);
-  const gbraid = clean(data.gbraid, 200);
-  const wbraid = clean(data.wbraid, 200);
-
   const ip = request.headers.get('CF-Connecting-IP') || '';
   const ts = await verifyTurnstile(env.TURNSTILE_SECRET_KEY, clean(data.token, 2048), ip);
-  // Dacă Turnstile pică, trimitem totuși emailul (marcat), ca să nu pierdem un client real.
+  // Dacă Turnstile pică, trimitem totuși (marcat), ca să nu pierdem un client real.
   const suspect = ts === 'eșuat' || ts === 'lipsă token';
 
-  if (!env.RESEND_API_KEY) return json({ ok: false, error: 'not_configured' }, 500);
+  const page = clean(data.page, 120) || '/';
+  const lead = {
+    id: crypto.randomUUID(),
+    phone,
+    local: phone.replace(/^\+40/, '0'),
+    name: clean(data.name, 80),
+    service: clean(data.service, 80),
+    judet: ZONE[clean(data.judet, 10)] || '',
+    page,
+    pageUrl: SITE + page,
+    gclid: clean(data.gclid, 200) || clean(data.gbraid, 200) || clean(data.wbraid, 200),
+    device: /Mobi|Android|iPhone/i.test(request.headers.get('User-Agent') || '') ? 'telefon' : 'desktop',
+    ts
+  };
+  lead.subject = `${suspect ? '[posibil spam] ' : ''}[RO] Te sunăm noi: ${lead.local}` +
+    `${lead.service ? ' – ' + lead.service : ''}${lead.judet ? ' (' + lead.judet + ')' : ''}`;
 
-  const id = crypto.randomUUID();
-  const when = new Date().toLocaleString('ro-RO', { timeZone: 'Europe/Bucharest' });
-  const local = phone.replace(/^\+40/, '0');
-
-  const rows = [
-    ['Nume', name || '—'],
-    ['Telefon', local],
-    ['Lucrare', service || '—'],
-    ['Județ', judet || '—'],
-    ['Pagina', (pageTitle ? pageTitle + ' — ' : '') + (page || '/')],
-    ['gclid', gclid || '—'],
-    ['gbraid / wbraid', [gbraid, wbraid].filter(Boolean).join(' / ') || '—'],
-    ['Data', when],
-    ['Turnstile', ts],
-    ['ID cerere', id]
+  const jobs = [
+    sendFormspree(env.FORMSPREE_URL || FORMSPREE_URL, lead),
+    sendSheet(env.SHEET_URL || SHEET_URL, lead)
   ];
+  if (env.RESEND_API_KEY) jobs.push(sendResend(env, lead));
 
-  const text = rows.map(([k, v]) => `${k}: ${v}`).join('\n');
-  const htmlBody =
-    `<h2 style="margin:0 0 12px">Cerere nouă: vă rugăm sunați clientul</h2>` +
-    `<p style="font-size:22px;margin:0 0 16px"><a href="tel:${phone}">${esc(local)}</a></p>` +
-    `<table cellpadding="6" style="border-collapse:collapse;font:15px Arial,sans-serif">` +
-    rows.map(([k, v]) => `<tr><td style="color:#666">${esc(k)}</td><td><b>${esc(v)}</b></td></tr>`).join('') +
-    `</table>`;
-
-  const subject = `${suspect ? '[posibil spam] ' : ''}Te sunăm noi: ${local}${service ? ' – ' + service : ''}${judet ? ' (' + judet + ')' : ''}`;
-
-  const r = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      from: env.LEAD_FROM || 'HidroAcoperis <onboarding@resend.dev>',
-      to: [env.LEAD_TO || 'dachgmbh01@gmail.com'],
-      subject,
-      text,
-      html: htmlBody
-    })
-  });
-
-  if (!r.ok) return json({ ok: false, error: 'email' }, 502);
-  return json({ ok: true, id });
+  const results = await Promise.allSettled(jobs);
+  const delivered = results.some(r => r.status === 'fulfilled' && r.value === true);
+  if (!delivered) return json({ ok: false, error: 'delivery' }, 502);
+  return json({ ok: true, id: lead.id });
 }
 
 export function onRequest() {
