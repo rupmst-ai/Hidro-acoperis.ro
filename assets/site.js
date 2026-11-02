@@ -132,6 +132,68 @@
     });
   }
 
+  /* ---------- Trimiterea cererii ----------
+     1. Prin funcția Cloudflare /api/callback (dacă site-ul e legat de GitHub).
+     2. Dacă funcția nu există (upload manual în Cloudflare), direct din browser,
+        pe aceleași canale ca site-ul german: Formspree (email) + Google Apps Script. */
+  var FORMSPREE_URL = 'https://formspree.io/f/xvzbwbrj';
+  var SHEET_URL = 'https://script.google.com/macros/s/AKfycbxKxU91jmxHQIyEyBzzcuQ7Q3zN1q9wsklPoltXMbpYjF6GybzK2o2ZqforBrD8gBLk/exec';
+
+  function sendDirect(lead) {
+    if (lead.website) return Promise.resolve({ ok: true, id: 'x' });
+    var local = lead.phone.replace(/^\+40/, '0');
+    var zone = ZONE[lead.judet] || '';
+    var gclid = lead.gclid || lead.gbraid || lead.wbraid || '';
+    var subject = '[RO] Te sunăm noi: ' + local + (lead.service ? ' – ' + lead.service : '') + (zone ? ' (' + zone + ')' : '');
+    var id = String(Date.now()) + Math.random().toString(36).slice(2, 8);
+
+    try {
+      var d2 = {
+        action: '\u260E ' + local + (lead.name ? ' | ' + lead.name : '') + ' | ' + (lead.service || 'Acoperiș') + ' | RO' + (zone ? ' ' + zone : ''),
+        city: zone, locPhys: '', locInt: '', campId: '', page: lead.page, campaign: '', keyword: '',
+        gclid: gclid, device: /Mobi|Android|iPhone/i.test(navigator.userAgent) ? 'telefon' : 'desktop',
+        referrer: 'hidro-acoperis.ro'
+      };
+      var blob = new Blob([JSON.stringify(d2)], { type: 'text/plain;charset=UTF-8' });
+      if (!(navigator.sendBeacon && navigator.sendBeacon(SHEET_URL, blob))) {
+        fetch(SHEET_URL, { method: 'POST', mode: 'no-cors', keepalive: true,
+          headers: { 'Content-Type': 'text/plain;charset=UTF-8' }, body: JSON.stringify(d2) });
+      }
+    } catch (e) {}
+
+    var fd = new FormData();
+    fd.append('_subject', subject);
+    fd.append('leistung', lead.service || 'Acoperiș (general)');
+    fd.append('telefon', local);
+    fd.append('nume', lead.name || '—');
+    fd.append('judet', zone || '—');
+    fd.append('quelle', 'RO hidro-acoperis.ro – Te sunăm noi');
+    fd.append('pagina', location.origin + lead.page);
+    fd.append('gclid', gclid);
+    // Reușită = Formspree confirmă emailul (notificarea WhatsApp pleacă oricum, în paralel).
+    var ctrl = window.AbortController ? new AbortController() : null;
+    var timer = setTimeout(function () { if (ctrl) ctrl.abort(); }, 10000);
+    return fetch(FORMSPREE_URL, { method: 'POST', body: fd, headers: { Accept: 'application/json' }, signal: ctrl ? ctrl.signal : undefined })
+      .then(function (r) { clearTimeout(timer); return { ok: r.ok, id: id }; })
+      .catch(function () { clearTimeout(timer); return { ok: false, id: id }; });
+  }
+
+  function sendLead(lead) {
+    return fetch('/api/callback', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(lead)
+    }).then(function (r) {
+      var isJson = (r.headers.get('Content-Type') || '').indexOf('application/json') !== -1;
+      if (!isJson) return sendDirect(lead);
+      return r.json().then(function (j) {
+        if (j.ok) return j;
+        if (j.error === 'phone') return j;
+        return sendDirect(lead);
+      });
+    }).catch(function () { return sendDirect(lead); });
+  }
+
   /* ---------- Formular "Te sunăm noi" ---------- */
   var cb = $('#cb');
   $$('[data-cb]').forEach(function (b) {
@@ -181,43 +243,38 @@
       var name = nameEl ? nameEl.value.trim() : '';
       var service = svcEl ? svcEl.value : (body.getAttribute('data-svc') || '');
 
+      var lead = {
+        name: name,
+        phone: e164,
+        service: service,
+        judet: judet,
+        page: location.pathname,
+        pageTitle: d.title,
+        gclid: ss('gclid'),
+        gbraid: ss('gbraid'),
+        wbraid: ss('wbraid'),
+        website: $('input[name=website]', cb).value
+      };
       waitToken(3000).then(function (token) {
-        return fetch('/api/callback', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            name: name,
-            phone: e164,
-            service: service,
-            judet: judet,
-            page: location.pathname,
-            pageTitle: d.title,
-            gclid: ss('gclid'),
-            gbraid: ss('gbraid'),
-            wbraid: ss('wbraid'),
-            website: $('input[name=website]', cb).value,
-            token: token || ''
-          })
-        });
-      }).then(function (r) {
-        return r.json().catch(function () { return {}; }).then(function (j) {
-          if (!r.ok || !j.ok) throw new Error('send');
-          // Enhanced conversions: datele se trimit înainte de evenimentul de conversie
-          if (typeof gtag === 'function') {
-            var ud = { phone_number: e164 };
-            if (name) {
-              var parts = name.split(/\s+/);
-              ud.address = { first_name: parts[0], last_name: parts.slice(1).join(' '), country: 'RO' };
-            }
-            gtag('set', 'user_data', ud);
+        lead.token = token || '';
+        return sendLead(lead);
+      }).then(function (j) {
+        if (!j.ok) throw new Error('send');
+        // Enhanced conversions: datele se trimit înainte de evenimentul de conversie
+        if (typeof gtag === 'function') {
+          var ud = { phone_number: e164 };
+          if (name) {
+            var parts = name.split(/\s+/);
+            ud.address = { first_name: parts[0], last_name: parts.slice(1).join(' '), country: 'RO' };
           }
-          conversion('form', { transaction_id: j.id || String(Date.now()) });
-          ss('sent', '1');
-          form.hidden = true;
-          $('#cb-h', cb).hidden = true;
-          $('#cb-sub', cb).hidden = true;
-          $('.ok', cb).hidden = false;
-        });
+          gtag('set', 'user_data', ud);
+        }
+        conversion('form', { transaction_id: j.id || String(Date.now()) });
+        ss('sent', '1');
+        form.hidden = true;
+        $('#cb-h', cb).hidden = true;
+        $('#cb-sub', cb).hidden = true;
+        $('.ok', cb).hidden = false;
       }).catch(function () {
         fail.hidden = false;
         btn.disabled = false;
