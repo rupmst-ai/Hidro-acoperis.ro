@@ -1,9 +1,13 @@
 {
   // Worker care servește site-ul static (Cloudflare Workers Builds rulează `npx wrangler deploy`).
+  // worker/index.js lasă pe site doar vizitatorii din România (+ roboții Google și proprietarul).
   "name": "hidro-acoperis-ro",
+  "main": "worker/index.js",
   "compatibility_date": "2025-10-01",
   "assets": {
     "directory": "./public",
-    "not_found_handling": "404-page"
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    "run_worker_first": true
   }
 }

@@ -15,3 +15,8 @@ Cheia publică Turnstile se pune în `public/assets/site.js` (`TURNSTILE_SITEKEY
 Publicare: Cloudflare Worker `hidro-acoperis-ro` (Workers Builds, legat de GitHub, branch `main`).
 Orice push pe `main` se publică automat pe hidro-acoperis.ro și www.hidro-acoperis.ro.
 `wrangler.jsonc` publică folderul `public/`.
+
+## Acces doar din România
+`worker/index.js` blochează vizitatorii din afara României (pagina „disponibil doar în România”).
+Trec totuși: roboții Google (necesari pentru aprobarea anunțurilor) și proprietarul.
+Proprietarul deschide o dată pe fiecare telefon/calculator: https://hidro-acoperis.ro/?acces=hidro-ro
