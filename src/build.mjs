@@ -389,7 +389,7 @@ ${dialogs(p)}
 }
 
 for (const p of PAGES) {
-  const file = join(ROOT, p.path, 'index.html');
+  const file = join(ROOT, 'public', p.path, 'index.html');
   mkdirSync(dirname(file), { recursive: true });
   writeFileSync(file, page(p));
   console.log('scris', file.replace(ROOT + '/', ''));
