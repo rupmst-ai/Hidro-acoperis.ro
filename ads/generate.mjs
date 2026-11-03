@@ -21,31 +21,31 @@ const SCHEDULE = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Satur
 
 const GROUPS = [
   { name: 'Reparatii acoperis', path: 'reparatii-acoperis', p1: 'reparatii',
-    pin: z => `Reparații Acoperiș ${z}`,
+    pin: z => `Reparații Acoperiș în ${z}`, city: c => `Reparații Acoperiș ${c}`,
     heads: ['Acoperișul Curge? Sunați-ne', 'Reparăm Infiltrații Rapid', 'Reparații Țiglă și Tablă'],
     kw: ['reparatii acoperis', 'reparatie acoperis', 'acoperis curge', 'infiltratii acoperis', 'firma acoperisuri', 'dulgher acoperis', 'tinichigiu', 'reparatii acoperisuri case'],
     citykw: ['reparatii acoperis', 'firma acoperisuri'],
     d: 'Acoperiș care curge? Venim să vedem și vă spunem clar ce trebuie făcut. Ofertă gratuită.' },
   { name: 'Acoperis nou', path: 'acoperis-nou', p1: 'acoperis-nou',
-    pin: z => `Acoperiș Nou ${z}`,
+    pin: z => `Montaj Acoperiș Nou în ${z}`, city: c => `Acoperiș Nou în ${c}`,
     heads: ['Înlocuire Acoperiș Vechi', 'Structură Lemn și Învelitoare', 'Acoperiș Complet la Cheie'],
     kw: ['acoperis nou', 'montaj acoperis', 'inlocuire acoperis', 'refacere acoperis', 'constructie acoperis', 'acoperis casa'],
     citykw: ['montaj acoperis', 'acoperis nou'],
     d: 'Acoperiș nou complet: structură din lemn și învelitoare. Înlocuim și acoperișuri vechi.' },
   { name: 'Montaj tabla', path: 'montaj-tabla', p1: 'montaj-tabla',
-    pin: z => `Montaj Tablă ${z}`,
+    pin: z => `Montaj Tablă în ${z}`, city: c => `Montaj Tablă în ${c}`,
     heads: ['Montaj Tablă Tip Țiglă', 'Tablă Cutată și Fălțuită', 'Montaj cu Toate Accesoriile'],
     kw: ['montaj tabla', 'montaj tigla metalica', 'montaj tabla acoperis', 'montaj tabla faltuita', 'montator tabla'],
     citykw: ['montaj tabla'],
     d: 'Montaj tablă tip țiglă, cutată și fălțuită, cu toate accesoriile. Echipă proprie.' },
   { name: 'Hidroizolatii', path: 'hidroizolatii', p1: 'hidroizolatii',
-    pin: z => `Hidroizolații ${z}`,
+    pin: z => `Hidroizolații în ${z}`, city: c => `Hidroizolații în ${c}`,
     heads: ['10 Ani Garanție Hidroizolații', 'Hidroizolații cu Bitum', 'Terase, Blocuri și Hale'],
     kw: ['hidroizolatie terasa', 'hidroizolatie bloc', 'hidroizolatie acoperis', 'hidroizolatii', 'membrana bituminoasa montaj', 'hidroizolatie acoperis plat'],
     citykw: ['hidroizolatii', 'hidroizolatie terasa'],
     d: 'Hidroizolații cu membrane bituminoase pentru terase, blocuri și hale. 10 ani garanție.' },
   { name: 'Jgheaburi', path: 'sistem-pluvial', p1: 'jgheaburi',
-    pin: z => `Jgheaburi și Burlane ${z}`,
+    pin: z => `Jgheaburi și Burlane în ${z}`, city: c => `Jgheaburi în ${c}`,
     heads: ['Montaj Jgheaburi și Burlane', 'Reparăm Jgheaburi Care Curg', 'Sistem Pluvial Complet'],
     kw: ['montaj jgheaburi', 'reparatii jgheaburi', 'montaj burlane', 'jgheaburi si burlane montaj', 'inlocuire jgheaburi'],
     citykw: ['montaj jgheaburi'],
@@ -125,8 +125,8 @@ const ads = [];
 for (const c of COUNTIES) for (const g of GROUPS) {
   const pinned = chk(g.pin(c.name), 30, 'Titlu');
   const heads = [pinned, ...g.heads, ...COMMON(c.name)];
-  const cityHead = g.pin(c.city1);
-  if ([...cityHead].length <= 30 && cityHead !== pinned) heads.splice(1, 0, cityHead);
+  const cityHead = g.city(c.city1);
+  if (c.city1 !== c.name && [...cityHead].length <= 30) heads.splice(1, 0, cityHead);
   const descs = [g.d, ...DESC(c.name)];
   const r = { Campaign: camp(c), 'Ad Group': g.name, 'Ad type': 'Responsive search ad', 'Final URL': url(g, c),
     'Path 1': chk(g.p1, 15, 'Cale'), 'Path 2': chk(c.key, 15, 'Cale'), 'Headline 1 position': 1, Status: 'Enabled' };
