@@ -26,11 +26,11 @@ Campaniile se creează **pe pauză**. Le porniți după verificare.
 
 Regenerare după modificări: `node ads/generate.mjs`.
 
-## Create deja în cont (3 nov 2026, prin Supermetrics, toate pe PAUZĂ)
+## Create în cont (3 nov 2026, prin Supermetrics) – ACTIVE
 | Campanie | ID | Buget/zi | Locație |
 |---|---|---|---|
-| RO - Mureș - Search | 24431570770 | 100 RON | 20905 |
-| RO - Cluj - Search | 24425848475 | 120 RON | 20897 |
-| RO - Sibiu - Search | 24420695493 | 100 RON | 20908 |
+| RO - Mureș - Search | 24431570770 | 750 RON | 20905 |
+| RO - Cluj - Search | 24425848475 | 750 RON | 20897 |
+| RO - Sibiu - Search | 24420695493 | 750 RON | 20908 |
 
-Maximize clicks, CPC maxim 5 RON, doar Search, locație „Prezență”, sufix `judet=`.
+Maximize clicks, limită CPC 1000 RON (practic fără limită), program zilnic 08–20, doar Search, locație „Prezență”, sufix `judet=`.
