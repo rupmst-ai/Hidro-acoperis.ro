@@ -25,3 +25,12 @@ Campaniile se creează **pe pauză**. Le porniți după verificare.
 7. **Obiective de conversie**: apel, WhatsApp, formular, apeluri din anunțuri.
 
 Regenerare după modificări: `node ads/generate.mjs`.
+
+## Create deja în cont (3 nov 2026, prin Supermetrics, toate pe PAUZĂ)
+| Campanie | ID | Buget/zi | Locație |
+|---|---|---|---|
+| RO - Mureș - Search | 24431570770 | 100 RON | 20905 |
+| RO - Cluj - Search | 24425848475 | 120 RON | 20897 |
+| RO - Sibiu - Search | 24420695493 | 100 RON | 20908 |
+
+Maximize clicks, CPC maxim 5 RON, doar Search, locație „Prezență”, sufix `judet=`.
