@@ -58,7 +58,7 @@ const PAGES = [
     svc: '',
     faq: [
       ['Oferta este gratuită?', 'Da. Venim la fața locului, vedem acoperișul și primiți oferta scrisă fără niciun cost și fără obligații.'],
-      ['În ce zone lucrați?', 'Lucrăm în județele Mureș, Cluj și Sibiu. Sunați-ne și vă spunem imediat dacă ajungem la dumneavoastră.'],
+      ['În ce zone lucrați?', 'Lucrăm{ZONA}. Sunați-ne și vă spunem imediat dacă ajungem la dumneavoastră.'],
       ['Cât de repede puteți veni?', 'Răspundem în aceeași zi. De obicei venim la fața locului în 1–2 zile lucrătoare; la infiltrații urgente încercăm să venim cât mai repede.'],
       ['Vindeți materiale?', 'Nu. Ne ocupăm de montaj și reparații. Vă spunem exact ce materiale sunt necesare pentru lucrare.'],
       ['Oferiți garanție?', 'Da, garanție scrisă la manoperă, trecută în ofertă.']
@@ -188,6 +188,9 @@ const PAGES = [
   }
 ];
 
+// Fără ?judet=: toate cele 3 județe. Cu ?judet=: doar județul din campanie (CSS, fără să sară pagina).
+const ZONA_HTML = '<span class="zgen"> în județele Mureș, Cluj și Sibiu</span><span class="zj"></span>';
+
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const waHref = msg => `${WA}?text=${encodeURIComponent(msg)}`;
 
@@ -252,7 +255,7 @@ function why() {
 function faq(p) {
   return `<section class="sec faq"><div class="wrap">
 <h2>Întrebări frecvente</h2>
-${p.faq.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('\n')}
+${p.faq.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a).replace('{ZONA}', ZONA_HTML)}</p></details>`).join('\n')}
 </div></section>`;
 }
 
@@ -272,7 +275,7 @@ function final(p) {
 function footer() {
   return `<footer class="ftr"><div class="wrap">
 <div class="cols">
-<div><h2 class="fh">HidroAcoperiș</h2><p style="margin:0 0 8px">Montaj și reparații acoperișuri în județele Mureș, Cluj și Sibiu.</p><a href="tel:${TEL}">${TEL_TXT}</a></div>
+<div><h2 class="fh">HidroAcoperiș</h2><p style="margin:0 0 8px">Montaj și reparații acoperișuri${ZONA_HTML}.</p><a href="tel:${TEL}">${TEL_TXT}</a></div>
 <div><h2 class="fh">Servicii</h2><ul>${SERVICES.map(s => `<li><a href="/${s.slug}/">${esc(s.name)}</a></li>`).join('')}</ul></div>
 <div><h2 class="fh">Firmă</h2><ul><li>Meisterdach GmbH SRL</li><li>CUI RO51313339</li><li><button type="button" class="linkbtn" data-legal>Informații legale</button></li><li><button type="button" class="linkbtn" data-cookies>Setări cookies</button></li></ul></div>
 </div>
