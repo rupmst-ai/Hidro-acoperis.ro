@@ -13,4 +13,5 @@ Variabile de mediu opționale în Cloudflare Pages (Settings → Variables and S
 Cheia publică Turnstile se pune în `public/assets/site.js` (`TURNSTILE_SITEKEY`).
 
 Publicare: Cloudflare Worker `hidro-acoperis-ro` (Workers Builds, legat de GitHub, branch `main`).
+Orice push pe `main` se publică automat pe hidro-acoperis.ro și www.hidro-acoperis.ro.
 `wrangler.jsonc` publică folderul `public/`.
