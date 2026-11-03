@@ -1,0 +1,9 @@
+{
+  // Worker care servește site-ul static (Cloudflare Workers Builds rulează `npx wrangler deploy`).
+  "name": "hidro-acoperis-ro",
+  "compatibility_date": "2025-10-01",
+  "assets": {
+    "directory": ".",
+    "not_found_handling": "404-page"
+  }
+}
