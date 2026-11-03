@@ -1,0 +1,4 @@
+﻿Campaign,Campaign Type,Networks,Budget,Budget type,Bid Strategy Type,Languages,Ad Schedule,Final URL suffix,Campaign Status
+RO - Mureș - Search,Search,Google search,20,Daily,Maximize clicks,All,(Monday[06:00-19:00]);(Tuesday[06:00-19:00]);(Wednesday[06:00-19:00]);(Thursday[06:00-19:00]);(Friday[06:00-19:00]);(Saturday[06:00-19:00]),judet=mures,Paused
+RO - Cluj - Search,Search,Google search,25,Daily,Maximize clicks,All,(Monday[06:00-19:00]);(Tuesday[06:00-19:00]);(Wednesday[06:00-19:00]);(Thursday[06:00-19:00]);(Friday[06:00-19:00]);(Saturday[06:00-19:00]),judet=cluj,Paused
+RO - Sibiu - Search,Search,Google search,20,Daily,Maximize clicks,All,(Monday[06:00-19:00]);(Tuesday[06:00-19:00]);(Wednesday[06:00-19:00]);(Thursday[06:00-19:00]);(Friday[06:00-19:00]);(Saturday[06:00-19:00]),judet=sibiu,Paused
