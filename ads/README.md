@@ -33,8 +33,8 @@ Regenerare după modificări: `node ads/generate.mjs`.
 | RO - Cluj - Search | 24425848475 | 750 RON | 20897 |
 | RO - Sibiu - Search | 24420695493 | 750 RON | 20908 |
 
-Maximize clicks, limită CPC 7 RON, program zilnic 08–20, doar Search, locație „Prezență”, sufix `judet=`.
+Maximize clicks, fără limită CPC (plafon tehnic 1000 RON), program zilnic 08–20, doar Search, locație „Prezență”, sufix `judet=`.
 
 Ziua 1 (3 nov): 20 clicuri, ~210 RON, 0 conversii. Apoi: +30 negative (lindab, șuruburile, pantă, băii…),
 scoase „acoperiș casă”, „construcție acoperiș”, „hidroizolații”, „membrană bituminoasă montaj”,
-termenii generali doar exact, CPC max 7 RON. Campaniile sunt pe PAUZĂ.
+termenii generali doar exact, limita CPC scoasă pe 5.11. Campaniile sunt pe PAUZĂ.
