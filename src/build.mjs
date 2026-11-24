@@ -8,7 +8,7 @@ const SRC = dirname(fileURLToPath(import.meta.url));
 const OUT = join(SRC, '..', 'public');
 const SITE = 'https://hidro-acoperis.ro';
 const AW = 'AW-18589674615';
-const V = '1'; // versiunea fișierelor din /assets/ – se mărește la fiecare schimbare
+const V = '2'; // versiunea fișierelor din /assets/ – se mărește la fiecare schimbare
 const TEL = '+40742431066';
 const TEL_TXT = '0742 431 066';
 const MAIL = 'dachjetz@mail.de';
@@ -26,8 +26,7 @@ const strip = (s) => String(s).replace(/<[^>]+>/g, '');
 /* ---------- Meniu (ordinea din Polonia) ---------- */
 const NAV = [
   ['/', 'Acasă'],
-  ['/acoperis-nou/', 'Acoperiș nou'],
-  ['/inlocuire-acoperis/', 'Înlocuire acoperiș'],
+  ['/inlocuire-acoperis/', 'Acoperiș nou și înlocuire'],
   ['/sarpanta/', 'Șarpantă'],
   ['/hidroizolatii/', 'Acoperiș plat'],
   ['/montaj-tabla/', 'Țiglă metalică'],
@@ -38,8 +37,9 @@ const NAV = [
   ['/jgheaburi/', 'Jgheaburi'],
   ['/contact/', 'Contact']
 ];
-const SERVICES = NAV.slice(1, 11);
-const OPTIONS = ['Acoperiș nou', 'Înlocuire acoperiș', 'Șarpantă', 'Acoperiș plat', 'Țiglă metalică', 'Izolație mansardă',
+const SERVICES = NAV.slice(1, -1);
+const CONTACT = NAV[NAV.length - 1];
+const OPTIONS = ['Acoperiș nou și înlocuire', 'Șarpantă', 'Acoperiș plat', 'Țiglă metalică', 'Izolație mansardă',
   'Structură panouri solare', 'Reparații acoperiș', 'Tinichigerie', 'Jgheaburi', 'Altele'];
 
 const ico = (id) => `<svg class="ico"><use href="#i-${id}"/></svg>`;
@@ -121,7 +121,7 @@ ${col(SERVICES.slice(0, 5))}
       <div>
         <h3>&nbsp;</h3>
         <ul>
-${col([...SERVICES.slice(5), NAV[11]])}
+${col([...SERVICES.slice(5), CONTACT])}
         </ul>
       </div>
     </div>
@@ -142,7 +142,7 @@ ${col([...SERVICES.slice(5), NAV[11]])}
 `;
 }
 
-const OFFER24 = `<p class="offer24"><b>Locuri libere imediat</b> · ofertă gratuită în 24 h<br><b>Sunați sau scrieți zilnic 8:00–21:00</b></p>`;
+const OFFER24 = `<p class="offer24"><b>Venim rapid la fața locului</b> · ofertă gratuită în 24 h<br><b>Sunați sau scrieți zilnic 8:00–21:00</b></p>`;
 const TICKS = `<ul class="ticks">
       <li>Standarde germane</li>
       <li>Garanție scrisă</li>
@@ -155,7 +155,7 @@ function formSection(selected) {
   <div class="wrap form-grid">
     <div class="side">
       <h2 class="h2">Ofertă gratuită pentru acoperiș</h2>
-      <p>Lăsați numărul de telefon – vă sunăm înapoi și stabilim constatarea. Preferați să vorbiți direct? Scrieți-ne pe WhatsApp sau sunați.</p>
+      <p>Lăsați numărul de telefon – vă sunăm înapoi și stabilim o vizită la fața locului. Preferați să vorbiți direct? Scrieți-ne pe WhatsApp sau sunați.</p>
       <div class="btns">
         ${btnWa('WhatsApp')}
         ${btnTel('Sunați')}
@@ -229,7 +229,7 @@ const WHY_SERVICE = `<section class="sec sec-dk">
       <div class="why-i"><span class="why-ic">${ico('flag')}</span><div><h3>Echipă locală cu experiență în Germania</h3><p>Suntem aproape, iar ani de zile am lucrat la acoperișuri pe exigenta piață germană.</p></div></div>
       <div class="why-i"><span class="why-ic">${ico('check')}</span><div><h3>Standarde germane de execuție</h3><p>Precizie, ordine și lucru după regulile meseriei.</p></div></div>
       <div class="why-i"><span class="why-ic">${ico('doc')}</span><div><h3>Garanție scrisă</h3><p>Pentru lucrările executate primiți garanție în scris.</p></div></div>
-      <div class="why-i"><span class="why-ic">${ico('eye')}</span><div><h3>Ofertă gratuită</h3><p>Constatare și ofertă fără costuri și fără obligații.</p></div></div>
+      <div class="why-i"><span class="why-ic">${ico('eye')}</span><div><h3>Ofertă gratuită</h3><p>Evaluare la fața locului și ofertă fără costuri și fără obligații.</p></div></div>
     </div>
   </div>
 </section>`;
@@ -239,7 +239,7 @@ const STEPS_SERVICE = `<section class="sec">
     <h2 class="h2">Cum lucrăm</h2>
     <div class="steps">
       <div class="step"><h3>Contact</h3><p>Scrieți-ne pe WhatsApp, sunați sau lăsați numărul în formular. Puteți trimite direct poze.</p></div>
-      <div class="step"><h3>Constatare</h3><p>Stabilim o constatare gratuită în București sau în împrejurimi.</p></div>
+      <div class="step"><h3>Evaluare</h3><p>Stabilim o vizită gratuită la fața locului în București sau în împrejurimi.</p></div>
       <div class="step"><h3>Ofertă</h3><p>Primiți oferta cu descrierea lucrărilor și a materialelor.</p></div>
       <div class="step"><h3>Execuție</h3><p>Executăm lucrarea la termenul stabilit și vă dăm garanția în scris.</p></div>
     </div>
@@ -315,7 +315,7 @@ ${others.map(([h, t]) => `      <a href="${h}">${t} →</a>`).join('\n')}
   </div>
 </section>
 
-${cta('Cereți o ofertă gratuită', 'Scrieți sau sunați – stabilim o constatare gratuită în București și împrejurimi.')}
+${cta('Cereți o ofertă gratuită', 'Scrieți sau sunați – stabilim o vizită gratuită la fața locului în București și împrejurimi.')}
 
 </main>
 
@@ -325,49 +325,28 @@ ${footer()}`;
 /* ---------- Paginile de servicii (traducerea paginilor din Polonia) ---------- */
 const PAGES = [
   {
-    path: '/acoperis-nou/', service: 'Acoperiș nou', option: 'Acoperiș nou',
-    title: 'Acoperiș nou București și împrejurimi – construcție acoperiș de la zero | HidroAcoperiș',
-    desc: 'Acoperișuri noi în București și împrejurimi (până la 50 km): șarpantă, membrană, învelitoare, tinichigerie și jgheaburi. Case, garaje, blocuri și hale. Garanție scrisă, ofertă gratuită.',
-    img: 'hero-video-poster-v42.webp', w: 960, h: 540, alt: 'Echipă de acoperișari la montajul unei învelitori noi',
-    h1: 'Acoperiș nou în București și împrejurimi – de la șarpantă la jgheaburi',
-    sub: 'Construim acoperișuri complete pe clădiri noi: case, garaje, blocuri și hale, înclinate și plate. Standarde germane de execuție, garanție scrisă, ofertă gratuită.',
+    path: '/inlocuire-acoperis/', service: 'Acoperiș nou și înlocuire', option: 'Acoperiș nou și înlocuire',
+    title: 'Acoperiș nou și înlocuire acoperiș București și împrejurimi | HidroAcoperiș',
+    desc: 'Acoperișuri noi și înlocuire acoperiș în București și împrejurimi (până la 50 km): șarpantă, membrană, învelitoare, tinichigerie și jgheaburi. Demontarea celui vechi inclusă. Garanție scrisă, ofertă gratuită.',
+    img: 'hero-dachziegel.webp', w: 800, h: 500, alt: 'Înlocuirea țiglelor vechi cu o învelitoare nouă',
+    h1: 'Acoperiș nou și înlocuire acoperiș în București și împrejurimi',
+    sub: 'Construim acoperișuri noi și le înlocuim pe cele vechi – de la șarpantă la jgheaburi, pe case, garaje, blocuri și hale. Garanție scrisă, ofertă gratuită.',
     leads: [
       'Un acoperiș nou este o investiție pentru zeci de ani. De aceea fiecare etapă o facem așa cum am învățat în Germania: atent, după indicațiile producătorilor și fără scurtături. Ne ocupăm de tot acoperișul, deci nu trebuie să coordonați mai multe echipe.',
-      'Lucrăm pe clădiri de orice mărime – de la garaj și casă până la blocuri, hale și clădiri comerciale – cu acoperișuri înclinate și plate.'
+      'Acoperișul vechi curge, învelitoarea se sfărâmă sau pur și simplu i-a venit vremea? Înlocuirea e o ocazie bună să refaceți și ce nu se vede zilnic: membrana, șipcile, izolația și tinichigeria. Înainte de lucru verificăm structura și scriem în ofertă exact ce înlocuim.',
+      'Învelitoare nouă – țiglă metalică, tablă fălțuită, țiglă ceramică, membrană bituminoasă. Demontarea învelitorii vechi și transportul molozului sunt incluse în preț.'
     ],
-    scope: ['Execuția sau montajul șarpantei', 'Membrană de acoperiș, contrașipci și șipci', 'Învelitoare: țiglă ceramică, țiglă metalică, tablă fălțuită sau membrană bituminoasă',
-      'Tinichigerie la coșuri, pereți și margini', 'Montaj ferestre de mansardă și trape de acces', 'Jgheaburi și burlane', 'Izolație între căpriori – la cerere', 'Curățenie după terminarea lucrării'],
-    qual: [['Ventilarea acoperișului', 'Spațiul de ventilare corect protejează lemnul și izolația de umezeală.'],
-      ['Detalii etanșe', 'Coșurile, ferestrele de mansardă și dolierele sunt locurile unde apar cel mai des infiltrațiile – aici lucrăm cel mai atent.'],
-      ['Materiale din același sistem', 'Folosim elemente dintr-un singur sistem al producătorului, nu înlocuitori la întâmplare.'],
-      ['Ordine pe șantier', 'Facem curat pe parcurs și protejăm acoperișul peste noapte și înainte de ploaie.']],
-    faq: [['Ne ajutați să alegem tipul de învelitoare?', 'Da. La constatare vă spunem ce învelitoare se potrivește cel mai bine clădirii – în funcție de panta acoperișului, structură și ce vă doriți.'],
-      ['Cât durează construcția unui acoperiș?', 'Depinde de mărimea și complexitatea acoperișului. Termenul exact îl stabilim la ofertă, înainte să începem lucrul.'],
-      ['Lucrați după proiect?', 'Da. La o clădire nouă lucrăm după proiectul de construcție. Dacă aveți nelămuriri legate de soluțiile din proiect, vă sfătuim cu plăcere.'],
-      ['Faceți și acoperișuri plate?', 'Da – facem atât acoperișuri înclinate, cât și plate, pe case, garaje, blocuri și hale.']]
-  },
-  {
-    path: '/inlocuire-acoperis/', service: 'Înlocuire acoperiș', option: 'Înlocuire acoperiș',
-    title: 'Înlocuire acoperiș București și împrejurimi – învelitoare nouă în locul celei vechi | HidroAcoperiș',
-    desc: 'Înlocuire acoperiș în București și împrejurimi (până la 50 km): demontarea învelitorii vechi, verificarea șarpantei, învelitoare și tinichigerie noi. Case, blocuri, hale. Garanție scrisă, ofertă gratuită.',
-    img: 'hero-dachziegel.webp', w: 800, h: 500, alt: 'Înlocuirea țiglelor vechi cu o învelitoare nouă',
-    h1: 'Înlocuire acoperiș în București și împrejurimi',
-    sub: 'Demontăm învelitoarea veche, verificăm structura și montăm un acoperiș nou și etanș – pe case, garaje, blocuri și hale. Garanție scrisă, ofertă gratuită.',
-    leads: [
-      'Acoperișul vechi curge, învelitoarea se sfărâmă sau pur și simplu i-a venit vremea? Înlocuirea acoperișului e o ocazie bună să refaceți și ce nu se vede zilnic: membrana, șipcile, izolația și tinichigeria.',
-      'Înainte de lucru verificăm acoperișul și structura. În ofertă scriem exact ce înlocuim și ce poate rămâne fără griji.',
-      'Învelitoare nouă – țiglă metalică, tablă fălțuită, membrană bituminoasă. Demontarea învelitorii vechi și transportul molozului sunt incluse în preț.'
-    ],
-    scope: ['Demontarea învelitorii vechi și transportul deșeurilor', 'Verificarea șarpantei și înlocuirea elementelor deteriorate', 'Membrană, contrașipci și șipci noi',
-      'Învelitoare nouă: țiglă ceramică, țiglă metalică, tablă sau membrană bituminoasă', 'Tinichigerie nouă la coșuri și ferestre de mansardă', 'Înlocuirea jgheaburilor și burlanelor',
-      'Izolație între căpriori odată cu înlocuirea', 'Protejarea acoperișului de ploaie pe durata lucrării'],
+    scope: ['Demontarea învelitorii vechi și transportul deșeurilor', 'Execuția, verificarea sau înlocuirea șarpantei', 'Membrană, contrașipci și șipci noi',
+      'Învelitoare: țiglă ceramică, țiglă metalică, tablă fălțuită sau membrană bituminoasă', 'Tinichigerie la coșuri, pereți și ferestre de mansardă', 'Montaj ferestre de mansardă și trape de acces',
+      'Jgheaburi și burlane', 'Izolație între căpriori – la cerere', 'Protejarea acoperișului de ploaie pe durata lucrării'],
     qual: [['Protecție la vreme rea', 'Descoperim doar atât cât putem proteja în aceeași zi.'],
       ['Structură verificată', 'Înainte de învelitoarea nouă verificăm șarpanta și reparăm ce e nevoie.'],
-      ['Lucrări clar descrise', 'În ofertă descriem fiecare etapă – fără surprize pe parcurs.'],
-      ['Curățenie', 'Învelitoarea veche o ducem noi, iar în jurul casei lăsăm curat.']],
-    faq: [['Se poate locui în casă în timpul înlocuirii acoperișului?', 'Da. Lucrăm pe etape și protejăm acoperișul pe parcurs, deci de obicei nu trebuie să vă mutați.'],
+      ['Detalii etanșe', 'Coșurile, ferestrele de mansardă și doliile sunt locurile unde apar cel mai des infiltrațiile – aici lucrăm cel mai atent.'],
+      ['Ordine pe șantier', 'Învelitoarea veche o ducem noi, iar în jurul casei lăsăm curat.']],
+    faq: [['Ne ajutați să alegem tipul de învelitoare?', 'Da. La evaluarea la fața locului vă spunem ce învelitoare se potrivește cel mai bine clădirii – în funcție de panta acoperișului, structură și ce vă doriți.'],
+      ['Cât durează lucrarea?', 'Depinde de mărimea și complexitatea acoperișului. Termenul exact îl stabilim la ofertă, înainte să începem lucrul.'],
+      ['Se poate locui în casă în timpul înlocuirii acoperișului?', 'Da. Lucrăm pe etape și protejăm acoperișul pe parcurs, deci de obicei nu trebuie să vă mutați.'],
       ['La înlocuirea acoperișului trebuie schimbată și șarpanta?', 'Nu întotdeauna. Întâi verificăm starea lemnului – înlocuim doar elementele deteriorate, iar restul îl consolidăm dacă e nevoie.'],
-      ['Înlocuiți acoperișuri la blocuri și hale?', 'Da. Înlocuim învelitori pe clădiri de orice mărime – de la garaj și casă până la blocuri și hale.'],
       ['Se poate izola acoperișul cu ocazia asta?', 'Da, înlocuirea învelitorii este cel mai bun moment pentru izolația între căpriori sau pentru îmbunătățirea celei existente.']]
   },
   {
@@ -386,8 +365,8 @@ const PAGES = [
     qual: [['Lemnul potrivit', 'Folosim lemn de construcție uscat și impregnat.'],
       ['Conform proiectului', 'Secțiunile și distanțele dintre elemente le facem după proiect.'],
       ['Îmbinări precise', 'Îmbinări de dulgherie solide și piese metalice acolo unde e nevoie.'],
-      ['Ape drepte', 'Avem grijă de geometria acoperișului, ca învelitoarea să stea perfect drept.']],
-    faq: [['De unde știu că șarpanta trebuie reparată?', 'Semnale de alarmă sunt apele lăsate, lemnul umed sau înnegrit, urme de dăunători sau elemente crăpate. La constatarea gratuită verificăm starea structurii.'],
+      ['Acoperiș drept, fără denivelări', 'Avem grijă de geometria acoperișului, ca învelitoarea să stea perfect drept.']],
+    faq: [['De unde știu că șarpanta trebuie reparată?', 'Semnale de alarmă sunt apele lăsate, lemnul umed sau înnegrit, urme de dăunători sau elemente crăpate. La evaluarea gratuită verificăm starea structurii.'],
       ['Se poate consolida șarpanta fără să scoatem învelitoarea?', 'De multe ori da – depinde de locul defectului și de accesul din pod. Verificăm la fața locului.'],
       ['Faceți șarpanta după proiect?', 'Da. Șarpanta nouă o facem conform proiectului de construcție.']]
   },
@@ -409,7 +388,7 @@ const PAGES = [
       ['Lipituri atente', 'Suprapunerile membranei le facem cu rezervă suficientă și verificăm fiecare lipitură.'],
       ['Racorduri la atice', 'Ridicarea membranei pe atice și pereți e cheia unui acoperiș etanș.'],
       ['Scurgere liberă', 'Gurile de scurgere și preaplinurile le facem așa încât apa să aibă mereu pe unde ieși.']],
-    faq: [['Se poate pune membrană nouă peste cea veche?', 'De multe ori da, dacă vechea hidroizolație e uscată și bine lipită de suport. Decidem după constatare – uneori e mai bine să scoatem straturile vechi.'],
+    faq: [['Se poate pune membrană nouă peste cea veche?', 'De multe ori da, dacă vechea hidroizolație e uscată și bine lipită de suport. Decidem după evaluarea la fața locului – uneori e mai bine să scoatem straturile vechi.'],
       ['Faceți acoperișuri plate la blocuri și hale?', 'Da. Facem acoperișuri plate pe clădiri de orice mărime – de la garaj până la blocuri, hale și clădiri comerciale.'],
       ['Când e cel mai bine să renovați un acoperiș plat?', 'Membrana bituminoasă se aplică pe vreme uscată, cel mai bine din primăvară până toamna. Infiltrațiile urgente le rezolvăm și în afara sezonului, de îndată ce vremea permite.']]
   },
@@ -425,7 +404,7 @@ const PAGES = [
       'Montăm învelitori din tablă pe case, garaje, anexe și hale – atât pe acoperișuri noi, cât și în locul învelitorii vechi.'
     ],
     scope: ['Țiglă metalică modulară și în panouri', 'Tablă cutată pentru garaje, hale și anexe', 'Tablă fălțuită', 'Membrană, contrașipci și șipci sub învelitoare',
-      'Tinichigerie: coame, borduri, doliere, picurători', 'Tinichigerie la coșuri și ferestre de mansardă', 'Parazăpezi și podețe de acces', 'Jgheaburi și burlane în culoarea învelitorii'],
+      'Tinichigerie: coame, borduri, dolii, picurători', 'Tinichigerie la coșuri și ferestre de mansardă', 'Parazăpezi și podețe de acces', 'Jgheaburi și burlane în culoarea învelitorii'],
     qual: [['Prindere corectă', 'Șuruburi cu garnitură în locurile indicate de producător – fără strângere excesivă și fără joc.'],
       ['Ventilare sub tablă', 'Spațiul potrivit sub învelitoare previne condensul.'],
       ['Tăiere fără flex', 'Tabla o tăiem cu foarfeca, ca să nu distrugem stratul protector și să nu apară rugina.'],
@@ -462,7 +441,7 @@ const PAGES = [
     h1: 'Structură panouri solare în București și împrejurimi',
     sub: 'Montaj cârlige, șine și panouri pe acoperiș, cu etanșarea corectă a învelitorii. Instalația stă stabil, iar acoperișul rămâne etanș.',
     leads: [
-      'La montajul fotovoltaicelor acoperișul se strică ușor: cârlige puse greșit, țigle crăpate sau treceri neetanșe pot duce în timp la infiltrații. Noi lucrăm ca acoperișari – instalația trebuie să fie stabilă, iar învelitoarea etanșă.',
+      'La montajul fotovoltaicelor acoperișul se strică ușor: cârlige puse greșit, țigle crăpate sau treceri neetanșe pot duce în timp la infiltrații. Noi lucrăm ca meșteri de acoperișuri – instalația trebuie să fie stabilă, iar învelitoarea etanșă.',
       'Ne ocupăm doar de partea mecanică de pe acoperiș. Conectarea electrică o face un electrician autorizat.'
     ],
     scope: ['Alegerea și montajul cârligelor după tipul învelitorii: țiglă, tablă, membrană', 'Montaj șine', 'Montaj panouri pe structură', 'Etanșarea prinderilor și a trecerilor prin învelitoare',
@@ -473,7 +452,7 @@ const PAGES = [
       ['Vânt și zăpadă', 'Distanța dintre prinderi o alegem ținând cont de vânt și zăpadă.']],
     faq: [['Faceți și conectarea electrică?', 'Nu. Facem montajul mecanic pe acoperiș: cârlige, șine, panouri și etanșarea învelitorii. Conectarea electrică o face un electrician autorizat.'],
       ['Lucrați cu instalatorul nostru?', 'Da. Putem face partea de acoperiș direct pentru dumneavoastră sau împreună cu firma de instalații aleasă de dumneavoastră.'],
-      ['Merită să schimbăm acoperișul înainte de panouri?', 'Dacă învelitoarea e veche, merită luat în calcul – mai târziu înlocuirea ar cere demontarea panourilor. La constatare vă spunem starea acoperișului.']]
+      ['Merită să schimbăm acoperișul înainte de panouri?', 'Dacă învelitoarea e veche, merită luat în calcul – mai târziu înlocuirea ar cere demontarea panourilor. La evaluarea la fața locului vă spunem starea acoperișului.']]
   },
   {
     path: '/reparatii-acoperis/', service: 'Reparații acoperiș', option: 'Reparații acoperiș',
@@ -487,7 +466,7 @@ const PAGES = [
       'Nu peticim doar simptomele – întâi căutăm de unde intră de fapt apa. De multe ori cauza este tinichigeria neetanșă de la coș, de la fereastra de mansardă sau de la dolie, nu învelitoarea în sine.'
     ],
     scope: ['Găsirea și eliminarea infiltrațiilor', 'Înlocuirea țiglelor crăpate și deplasate', 'Reparații la învelitori din tablă și membrană',
-      '<a href="/tinichigerie/">Tinichigerie nouă la coșuri, ferestre de mansardă și pereți</a>', 'Reparații la coame și doliere', 'Remedierea pagubelor după vânt și furtuni',
+      '<a href="/tinichigerie/">Tinichigerie nouă la coșuri, ferestre de mansardă și pereți</a>', 'Reparații la coame și dolii', 'Remedierea pagubelor după vânt și furtuni',
       'Repararea și etanșarea jgheaburilor', 'Verificarea stării acoperișului'],
     qual: [['Diagnostic înainte de reparație', 'Întâi aflăm cauza infiltrației, apoi reparăm.'],
       ['Materiale potrivite', 'Pentru reparație alegem elemente potrivite cu învelitoarea existentă.'],
@@ -495,7 +474,7 @@ const PAGES = [
       ['Evaluare cinstită', 'Vă spunem direct dacă reparația are sens sau e mai bine să schimbați învelitoarea.']],
     faq: [['Ce fac dacă îmi curge acoperișul?', 'Protejați lucrurile de sub locul infiltrației, faceți câteva poze din exterior și din interior și trimiteți-le pe WhatsApp. Stabilim cât de repede putem veni.'],
       ['Reparați acoperișuri plate și acoperișuri de bloc?', 'Da. Reparăm acoperișuri înclinate și plate pe clădiri de orice mărime – de la garaj și casă până la blocuri și hale.'],
-      ['Reparație sau înlocuire?', 'Dacă defectul e local, de obicei ajunge o reparație. Dacă învelitoarea e veche și problemele revin, merită mai mult înlocuirea. Vă sfătuim după constatare.']]
+      ['Reparație sau înlocuire?', 'Dacă defectul e local, de obicei ajunge o reparație. Dacă învelitoarea e veche și problemele revin, merită mai mult înlocuirea. Vă sfătuim după evaluarea la fața locului.']]
   },
   {
     path: '/tinichigerie/', service: 'Tinichigerie', option: 'Tinichigerie',
@@ -509,12 +488,12 @@ const PAGES = [
       'Facem tinichigerie nouă din tablă zincată vopsită, aluminiu, titan-zinc și cupru și o reparăm pe cea existentă – pe case, garaje, blocuri și hale.'
     ],
     scope: ['Tinichigerie la coșuri – nouă și repararea celei neetanșe', 'Tinichigerie la ferestre de mansardă și trape', 'Racorduri la atice, calcane și pereți', 'Picurători și tinichigeria streașinii',
-      'Doliere, borduri și coame', 'Glafuri exterioare și pălării de coș din tablă', 'Etanșarea și înlocuirea tinichigeriei ruginite', 'Lucrări mici de tinichigerie – fără cantitate minimă'],
+      'Dolii, borduri și coame', 'Glafuri exterioare și pălării de coș din tablă', 'Etanșarea și înlocuirea tinichigeriei ruginite', 'Lucrări mici de tinichigerie – fără cantitate minimă'],
     qual: [['Diagnostic înainte de reparație', 'Întâi aflăm pe unde intră apa, apoi facem tinichigeria.'],
       ['Tablă potrivită', 'Materialul și culoarea le alegem după învelitoarea existentă.'],
       ['Îmbinări etanșe', 'Tinichigeria o încastrăm în peretele coșului și o etanșăm – nu doar „cu silicon”.'],
       ['Evaluare cinstită', 'Vă spunem direct dacă ajunge etanșarea sau tinichigeria trebuie schimbată.']],
-    faq: [['Curge la coș – ce fac?', 'Faceți câteva poze cu coșul din exterior și cu pata din interior și trimiteți-le pe WhatsApp. De obicei ajunge repararea sau înlocuirea tinichigeriei de la coș – stabilim repede o constatare.'],
+    faq: [['Curge la coș – ce fac?', 'Faceți câteva poze cu coșul din exterior și cu pata din interior și trimiteți-le pe WhatsApp. De obicei ajunge repararea sau înlocuirea tinichigeriei de la coș – stabilim repede o vizită la fața locului.'],
       ['Veniți și pentru lucrări mici de tinichigerie?', 'Da. Facem și racorduri individuale – un coș, o fereastră de mansardă, o bucată de atic sau picurătorul.'],
       ['Din ce tablă faceți tinichigeria?', 'Din tablă zincată vopsită, aluminiu, titan-zinc și cupru. Materialul și culoarea le potrivim cu învelitoarea.']]
   },
@@ -545,16 +524,15 @@ const PAGES = [
 /* ---------- Pagina principală ---------- */
 const HOME_FAQ = [
   ['Unde lucrați?', 'În București și împrejurimi – până la aproximativ 50 km de oraș. Dacă nu sunteți sigur că localitatea dumneavoastră e în zona noastră, scrieți-ne și vă răspundem imediat.'],
-  ['Oferta este cu plată?', 'Nu. Constatarea acoperișului și oferta sunt gratuite și fără obligații.'],
+  ['Oferta costă ceva?', 'Nu. Evaluarea acoperișului și oferta sunt gratuite și fără obligații.'],
   ['Ce garanție oferiți?', 'Pentru lucrările executate dăm garanție în scris. Ce acoperă și pe ce perioadă stabilim înainte de începerea lucrării – depind de tipul lucrării și de materialele folosite.'],
   ['Ce acoperișuri faceți?', 'Toate tipurile: acoperișuri înclinate și plate, pe garaje, case, blocuri, clădiri vechi, hale și clădiri comerciale. Construim acoperișuri noi, înlocuim învelitori vechi și facem reparații.'],
   ['Faceți și reparații la acoperiș?', 'Da. Eliminăm infiltrații, înlocuim țigle și tablă deteriorate, reparăm tinichigeria de la coșuri și acoperișurile plate. Întâi căutăm cauza și abia apoi reparăm.'],
-  ['Cum mă pregătesc pentru ofertă?', 'Ajung câteva poze cu acoperișul și dimensiunile aproximative ale clădirii. Trimiteți-le pe WhatsApp – așa pregătim mai repede o ofertă estimativă și stabilim constatarea.'],
+  ['Cum mă pregătesc pentru ofertă?', 'Ajung câteva poze cu acoperișul și dimensiunile aproximative ale clădirii. Trimiteți-le pe WhatsApp – așa pregătim mai repede o ofertă estimativă și stabilim vizita la fața locului.'],
   ['Conectați și instalația fotovoltaică?', 'Nu. Ne ocupăm de partea de acoperiș: montajul cârligelor, șinelor și panourilor și etanșarea învelitorii. Conectarea electrică o face un electrician autorizat.']
 ];
 const CARDS = [
-  ['/acoperis-nou/', 'card-ziegeloptik.webp', 'Învelitoare nouă pe șipci și membrană', 'Acoperiș nou', 'Acoperiș complet pe o clădire nouă: șarpantă, membrană, șipci, învelitoare și tinichigerie.'],
-  ['/inlocuire-acoperis/', 'card-dachziegel.webp', 'Înlocuirea învelitorii vechi cu una nouă', 'Înlocuire acoperiș', 'Demontăm învelitoarea veche, verificăm structura și montăm un acoperiș nou și etanș.'],
+  ['/inlocuire-acoperis/', 'card-ziegeloptik.webp', 'Învelitoare nouă pe șipci și membrană', 'Acoperiș nou și înlocuire', 'Acoperișuri noi și înlocuirea celor vechi: șarpantă, membrană, învelitoare, tinichigerie.'],
   ['/reparatii-acoperis/', 'card-dachreparatur.webp', 'Acoperiș care curge și trebuie reparat', 'Reparații acoperiș', 'Infiltrații, țigle deteriorate, tinichigerie la coșuri – găsim cauza și eliminăm defectul.'],
   ['/tinichigerie/', 'card-schornstein.webp', 'Coș pe acoperiș cu tinichigerie', 'Tinichigerie', 'Tinichigerie la coșuri, ferestre de mansardă și atice – nouă și repararea celei neetanșe.'],
   ['/sarpanta/', 'card-trapezblech.webp', 'Structură de acoperiș cu șipci din lemn', 'Șarpantă', 'Șarpantă nouă, plus consolidarea sau înlocuirea căpriorilor și șipcilor deteriorate.'],
@@ -629,7 +607,7 @@ ${CARDS.map(([h, img, alt, t, d]) => `      <a class="card" href="${h}">
     <p class="lead">Simplu și fără formalități inutile – de la primul mesaj până la acoperișul gata.</p>
     <div class="steps">
       <div class="step"><h3>Contact</h3><p>Scrieți-ne pe WhatsApp, sunați sau lăsați numărul în formular. Puteți trimite direct poze cu acoperișul.</p></div>
-      <div class="step"><h3>Constatare</h3><p>Stabilim o constatare gratuită în București sau în împrejurimi.</p></div>
+      <div class="step"><h3>Evaluare</h3><p>Stabilim o vizită gratuită la fața locului în București sau în împrejurimi.</p></div>
       <div class="step"><h3>Ofertă</h3><p>Primiți oferta cu descrierea lucrărilor și a materialelor – fără poziții ascunse.</p></div>
       <div class="step"><h3>Execuție</h3><p>Facem acoperișul la termenul stabilit și vă dăm garanția în scris.</p></div>
     </div>
@@ -640,7 +618,7 @@ ${formSection('')}
 
 ${faqHtml(HOME_FAQ)}
 
-${cta('Acoperiș nou, înlocuire sau reparație?', 'Scrieți sau sunați – stabilim o constatare gratuită în București și împrejurimi.', 'Scrieți pe WhatsApp')}
+${cta('Acoperiș nou, înlocuire sau reparație?', 'Scrieți sau sunați – stabilim o vizită gratuită la fața locului în București și împrejurimi.', 'Scrieți pe WhatsApp')}
 </main>
 
 ${footer()}`;
@@ -713,7 +691,7 @@ ${header('')}
   <div class="hero-txt thanks">
     <div class="thanks-ok" aria-hidden="true">✓</div>
     <h1>Mulțumim! Am primit cererea dumneavoastră.</h1>
-    <p class="hero-sub">Vă sunăm cât mai repede și stabilim o constatare gratuită a acoperișului în București sau în împrejurimi.</p>
+    <p class="hero-sub">Vă sunăm cât mai repede și stabilim o evaluare gratuită a acoperișului în București sau în împrejurimi.</p>
     <p class="hero-sub"><strong style="color:#fff">Aveți poze cu acoperișul?</strong> Trimiteți-le pe WhatsApp – așa pregătim oferta mai repede.</p>
     <div class="btns">
       ${btnWa('Ofertă gratuită pe WhatsApp')}
@@ -760,7 +738,7 @@ ${header('')}
 
     <h2>3. Scopuri și temeiuri legale</h2>
     <ul>
-      <li>Răspunsul la cerere, pregătirea ofertei și stabilirea constatării – demersuri înainte de încheierea contractului, la cererea dumneavoastră (art. 6 alin. (1) lit. b GDPR).</li>
+      <li>Răspunsul la cerere, pregătirea ofertei și stabilirea vizitei la fața locului – demersuri înainte de încheierea contractului, la cererea dumneavoastră (art. 6 alin. (1) lit. b GDPR).</li>
       <li>Executarea contractului și garanția – art. 6 alin. (1) lit. b GDPR.</li>
       <li>Îndeplinirea obligațiilor legale, de exemplu fiscale și contabile – art. 6 alin. (1) lit. c GDPR.</li>
       <li>Constatarea, exercitarea sau apărarea unor drepturi în instanță – interesul nostru legitim (art. 6 alin. (1) lit. f GDPR).</li>
@@ -824,19 +802,19 @@ const OPT_ICONS = {
 };
 const OFERTE = [
   { path: '/oferta-reparatii-acoperis/', title: 'Reparații acoperiș în București și împrejurimi – ofertă gratuită',
-    desc: 'Reparații acoperiș în București și împrejurimi: țiglă, tablă, membrană, tinichigerie. Constatare și ofertă gratuite – lăsați numărul, vă sunăm în 15 minute.',
+    desc: 'Reparații acoperiș în București și împrejurimi: țiglă, tablă, membrană, tinichigerie. Evaluare și ofertă gratuite – lăsați numărul, vă sunăm în 15 minute.',
     h1: 'Reparații acoperiș<br>în București și împrejurimi', sub: '<b>Ofertă gratuită</b> · vă sunăm în 15 minute',
     opts: ['Reparații acoperiș', 'Acoperișul curge', 'Jgheaburi', 'Acoperiș nou / înlocuire'] },
   { path: '/oferta-acoperis-nou/', title: 'Acoperiș nou sau înlocuire învelitoare în București și împrejurimi – ofertă gratuită',
-    desc: 'Acoperiș nou sau înlocuirea învelitorii în București și împrejurimi. Constatare și ofertă gratuite – lăsați numărul, vă sunăm în 15 minute.',
+    desc: 'Acoperiș nou sau înlocuirea învelitorii în București și împrejurimi. Evaluare și ofertă gratuite – lăsați numărul, vă sunăm în 15 minute.',
     h1: 'Acoperiș nou<br>sau înlocuire învelitoare', sub: '<b>Ofertă gratuită</b> în București și împrejurimi · vă sunăm în 15 minute',
     opts: ['Acoperiș nou / înlocuire', 'Acoperișul curge', 'Reparații acoperiș', 'Jgheaburi'] },
   { path: '/oferta-acoperis-curge/', title: 'Vă curge acoperișul? Reparație înainte de iarnă – ofertă gratuită | București și împrejurimi',
-    desc: 'Acoperiș care curge în București și împrejurimi? Reparație rapidă înainte de iarnă. Constatare și ofertă gratuite – lăsați numărul, vă sunăm în 15 minute.',
+    desc: 'Acoperiș care curge în București și împrejurimi? Reparație rapidă înainte de iarnă. Evaluare și ofertă gratuite – lăsați numărul, vă sunăm în 15 minute.',
     h1: 'Vă curge acoperișul?<br>Venim și reparăm', sub: '<b>Ofertă gratuită</b> în București și împrejurimi · vă sunăm în 15 minute',
     opts: ['Acoperișul curge', 'Reparații acoperiș', 'Jgheaburi', 'Acoperiș nou / înlocuire'] },
   { path: '/oferta-jgheaburi/', title: 'Reparații și montaj jgheaburi în București și împrejurimi – ofertă gratuită',
-    desc: 'Reparații, înlocuire și montaj jgheaburi în București și împrejurimi, înainte de iarnă. Constatare și ofertă gratuite – lăsați numărul, vă sunăm în 15 minute.',
+    desc: 'Reparații, înlocuire și montaj jgheaburi în București și împrejurimi, înainte de iarnă. Evaluare și ofertă gratuite – lăsați numărul, vă sunăm în 15 minute.',
     h1: 'Reparații și montaj jgheaburi<br>înainte de iarnă', sub: '<b>Ofertă gratuită</b> în București și împrejurimi · vă sunăm în 15 minute',
     opts: ['Jgheaburi', 'Acoperișul curge', 'Reparații acoperiș', 'Acoperiș nou / înlocuire'] }
 ];
@@ -863,7 +841,7 @@ ${gtagHead()}
 
 <header class="top">
   <div class="logo"><div class="lm">🏠</div><div><div class="ln">Hidro<span>Acoperiș</span></div><div class="ls">Firmă de acoperișuri</div></div></div>
-  <div class="tagline">✓ Acoperișari cu experiență<br>✓ Lucrăm în zona dumneavoastră</div>
+  <div class="tagline">✓ Meșteri cu experiență<br>✓ Lucrăm în zona dumneavoastră</div>
 </header>
 
 <section class="hero">
@@ -903,7 +881,7 @@ ${o.opts.map((v, i) => `        <button class="opt${i === 0 ? ' hot' : ''}" data
           <span><div class="t">Plătiți <em>cu 15% mai puțin</em> — ofertă de iarnă</div><div class="d">valabilă până la 30.11</div></span>
         </button>
       </div>
-      <div class="free">✓ Constatare și ofertă gratuite</div>
+      <div class="free">✓ Evaluare și ofertă gratuite</div>
     </div>
 
     <!-- PASUL 3 -->
@@ -911,7 +889,7 @@ ${o.opts.map((v, i) => `        <button class="opt${i === 0 ? ' hot' : ''}" data
       <div class="won">🎉 Oferta dumneavoastră:</div>
       <ul class="list">
         <li><span><b id="pct">25</b>% mai puțin la lucrare</span></li>
-        <li>Constatare gratuită a acoperișului</li>
+        <li>Evaluare gratuită a acoperișului</li>
         <li>Ofertă gratuită</li>
       </ul>
       <form id="f" novalidate>
@@ -928,7 +906,7 @@ ${o.opts.map((v, i) => `        <button class="opt${i === 0 ? ' hot' : ''}" data
     <div class="step thanks" data-step="4">
       <div class="big">✅</div>
       <h2>Mulțumim!</h2>
-      <p>Oferta dumneavoastră este rezervată. Un acoperișar vă sună în 15 minute (zilnic 8:00–21:00) ca să stabiliți constatarea gratuită.</p>
+      <p>Oferta dumneavoastră este rezervată. Un meșter vă sună în 15 minute (zilnic 8:00–21:00) ca să stabiliți vizita gratuită la fața locului.</p>
     </div>
   </div>
 </main>
@@ -984,7 +962,7 @@ function write(path, html) {
 }
 
 // Fișierele site-ului vechi care nu mai sunt folosite.
-for (const old of ['sistem-pluvial', 'assets/site.js', 'assets/img']) {
+for (const old of ['acoperis-nou', 'sistem-pluvial', 'assets/site.js', 'assets/img']) {
   const f = join(OUT, old);
   if (existsSync(f)) rmSync(f, { recursive: true, force: true });
 }
