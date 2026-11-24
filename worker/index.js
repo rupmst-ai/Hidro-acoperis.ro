@@ -31,6 +31,11 @@ export default {
       });
     }
 
+    // Pagina veche „sistem-pluvial” are acum adresa /jgheaburi/.
+    if (url.pathname === '/sistem-pluvial' || url.pathname === '/sistem-pluvial/') {
+      return Response.redirect(url.origin + '/jgheaburi/' + url.search, 301);
+    }
+
     const allowed = !country || ALLOWED.has(country) || BOTS.test(ua) || !!verifiedBot || cookie.includes(COOKIE);
     if (!allowed) {
       return new Response(BLOCKED, {

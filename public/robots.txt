@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /oferta-
+Disallow: /multumim/
+
+Sitemap: https://hidro-acoperis.ro/sitemap.xml

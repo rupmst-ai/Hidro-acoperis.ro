@@ -1,20 +1,16 @@
 # hidro-acoperis.ro
 
-Site static (Cloudflare Pages), axat pe conversii din Google Ads.
+Site static, copie în română a site-ului din Polonia (dachjetz.de/pl): aceleași pagini, aceleași reduceri
+(seniori −25%, ofertă de iarnă −15% până la 30.11), paginile de ofertă în 3 pași (`/oferta-...`).
 
-- Paginile se generează în `public/` cu `node src/build.mjs` (textele sunt în `src/build.mjs`, stilurile în `src/*.css`).
-  După orice modificare rulați comanda și faceți commit și la fișierele `index.html` generate.
-- `public/assets/site.js`: conversii (apel, WhatsApp, formular), banner cookies, popup-uri, formular.
-- `functions/api/callback.js`: trimite cererile „Te sunăm noi” pe aceleași canale ca site-ul german:
-  Formspree (email) și Google Apps Script (notificare). Merge fără nicio setare.
-
-Variabile de mediu opționale în Cloudflare Pages (Settings → Variables and Secrets):
-`TURNSTILE_SECRET_KEY`, `RESEND_API_KEY` (email de rezervă), `FORMSPREE_URL`, `SHEET_URL`.
-Cheia publică Turnstile se pune în `public/assets/site.js` (`TURNSTILE_SITEKEY`).
+- Paginile se generează în `public/` cu `node src/build.mjs` (textele sunt în `src/build.mjs`).
+  După orice modificare rulați comanda și faceți commit și la fișierele generate.
+- `src/assets/app.js`: orașul din cuvântul cheie (`kw=`) sau din campanie (`region=bucuresti` / `region=cluj`),
+  conversii Google Ads (contul nou, AW-18589674615), notificări Telegram prin `https://dachjetz.de/notify`.
+- `src/assets/wycena.js`: formularul în 3 pași de pe paginile `/oferta-...`.
 
 Publicare: Cloudflare Worker `hidro-acoperis-ro` (Workers Builds, legat de GitHub, branch `main`).
 Orice push pe `main` se publică automat pe hidro-acoperis.ro și www.hidro-acoperis.ro.
-`wrangler.jsonc` publică folderul `public/`.
 
 ## Acces doar din România
 `worker/index.js` blochează vizitatorii din afara României (pagina „disponibil doar în România”).
