@@ -26,7 +26,7 @@
     document.querySelectorAll('.offer[data-v="Ofertă de iarnă"]').forEach(function (b) {
       b.dataset.v = 'Ofertă standard';
       delete b.dataset.pct;
-      b.innerHTML = '<span class="ic">📋</span><span><div class="t">Ofertă standard — fără reducere</div><div class="d">constatare și ofertă gratuite</div></span>';
+      b.innerHTML = '<span class="ic">📋</span><span><div class="t">Ofertă standard — fără reducere</div><div class="d">evaluare și ofertă gratuite</div></span>';
     });
   }
 

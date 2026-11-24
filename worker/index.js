@@ -35,6 +35,10 @@ export default {
     if (url.pathname === '/sistem-pluvial' || url.pathname === '/sistem-pluvial/') {
       return Response.redirect(url.origin + '/jgheaburi/' + url.search, 301);
     }
+    // Pagina „acoperis-nou” a fost unită cu /inlocuire-acoperis/.
+    if (url.pathname === '/acoperis-nou' || url.pathname === '/acoperis-nou/') {
+      return Response.redirect(url.origin + '/inlocuire-acoperis/' + url.search, 301);
+    }
 
     const allowed = !country || ALLOWED.has(country) || BOTS.test(ua) || !!verifiedBot || cookie.includes(COOKIE);
     if (!allowed) {
